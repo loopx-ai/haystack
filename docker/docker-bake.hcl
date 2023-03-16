@@ -7,15 +7,15 @@ variable "GITHUB_REF" {
 }
 
 variable "IMAGE_NAME" {
-  default = "deepset/haystack"
+  default = "loopxai/haystack"
 }
 
 variable "IMAGE_TAG_SUFFIX" {
-  default = "local"
+  default = "main"
 }
 
 variable "BASE_IMAGE_TAG_SUFFIX" {
-  default = "local"
+  default = "main"
 }
 
 variable "HAYSTACK_EXTRAS" {
