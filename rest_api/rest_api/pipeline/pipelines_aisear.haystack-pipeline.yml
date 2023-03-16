@@ -13,10 +13,6 @@ components:    # define all the building-blocks for Pipeline
       document_store: DocumentStore    # params can reference other components defined in the YAML
       top_k: 4
       embedding_model: sentence-transformers/multi-qa-mpnet-base-dot-v1
-  # - name: QA       # custom-name for the component; helpful for visualization & debugging
-  #   type: LLMQA    # Haystack Class name for the component
-  #   params:
-  #     return_no_answer: false
   - name: TextFileConverter
     type: TextConverter
   - name: PDFFileConverter
@@ -34,8 +30,6 @@ pipelines:
     nodes:
       - name: Retriever
         inputs: [Query]
-      # - name: QA
-      #   inputs: [Retriever]
   - name: indexing
     nodes:
       - name: FileTypeClassifier

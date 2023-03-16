@@ -36,10 +36,10 @@ uvicorn rest_api.application:app --host 0.0.0.0
 ```
 
 ## Test the API
-Test Rest API File Upload
+Test Rest API File Upload (change file path accordingly)
 ```
 curl -X POST 'http://localhost:8000/file-upload' \
---form 'files=@"/home/hamlin/sample.pdf"'
+--form 'files=@"/home/your-user-name/your-file-name.pdf"'
 ```
 
 Test Rest API Query
