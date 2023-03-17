@@ -99,3 +99,5 @@ def upload_file(
         logger.error("Error executing indexing pipeline: %s", str(e))
         raise HTTPException(status_code=500, detail=f"Error executing indexing pipeline: {str(e)}")
 
+    # Return meta for more process
+    return meta_form

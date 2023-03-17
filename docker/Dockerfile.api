@@ -12,6 +12,11 @@ RUN addgroup --gid 1001 $SERVICE_NAME && \
     mkdir -p /var/log/$SERVICE_NAME && \
     chown $SERVICE_NAME:$SERVICE_NAME /var/log/$SERVICE_NAME
 
+WORKDIR /opt
+
+RUN mkdir -p /home/$SERVICE_NAME/.cache /home/$SERVICE_NAME/nltk_data && \
+    chown -R $SERVICE_NAME:$SERVICE_NAME /home/$SERVICE_NAME && \
+    chmod -R 700 /home/$SERVICE_NAME
 
 # Create a folder for the /file-upload API endpoint with write permissions for the service user only
 RUN mkdir -p /opt/file-upload && chown $SERVICE_NAME:$SERVICE_NAME /opt/file-upload && chmod 700 /opt/file-upload
