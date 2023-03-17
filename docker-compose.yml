@@ -1,7 +1,7 @@
 services:
 
   haystack-api:
-    image: "deepset/haystack:cpu"
+    image: "deepset/haystack:gpu"
     volumes:
       - ./rest_api/rest_api/pipeline:/opt/pipelines
     ports:
@@ -9,7 +9,7 @@ services:
     restart: on-failure
     environment:
       - DOCUMENTSTORE_PARAMS_HOST=elasticsearch
-      - PIPELINE_YAML_PATH=/opt/pipelines/pipelines.haystack-pipeline.yml
+      - PIPELINE_YAML_PATH=/opt/pipelines/pipelines_aisear.haystack-pipeline.yml
       - TOKENIZERS_PARALLELISM=false
       # Uncomment the following line to customise how much time (in seconds) a worker can spend serving a request
       # before it times out. This should include the time required to cache the models and setup the pipelines.
