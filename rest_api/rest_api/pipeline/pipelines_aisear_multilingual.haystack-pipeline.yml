@@ -7,30 +7,20 @@ components:    # define all the building-blocks for Pipeline
     type: ElasticsearchDocumentStore  # consider using MilvusDocumentStore or WeaviateDocumentStore for scaling to large number of documents
     params:
       host: localhost
-      similarity: dot_product           
+      embedding_dim: 768
+      similarity: dot_product
   - name: Retriever
-    type: DensePassageRetriever
+    type: EmbeddingRetriever
     params:
       document_store: DocumentStore    # params can reference other components defined in the YAML
       top_k: 10
-      query_embedding_model: facebook/dpr-question_encoder-multiset-base
-      passage_embedding_model: facebook/dpr-ctx_encoder-multiset-base
-      max_seq_len_passage: 512
+      embedding_model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
   - name: Reader       # custom-name for the component; helpful for visualization & debugging
     type: FARMReader    # Haystack Class name for the component
     params:
       model_name_or_path: deepset/roberta-base-squad2
       context_window_size: 500
-      return_no_answer: true      
-  # - name: AnswerGenerator
-  #   type: OpenAIAnswerGenerator
-  #   params:
-  #     model: "gpt-3.5-turbo"    # params can reference other components defined in the YAML
-  #     top_k: 5
-  #     temperature: 0
-  #     max_tokens: 50
-  #     api_key: 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
-  #     api_version: 
+      return_no_answer: true        
   - name: TextFileConverter
     type: TextConverter
   - name: PDFFileConverter
@@ -42,8 +32,8 @@ components:    # define all the building-blocks for Pipeline
       clean_whitespace: True
       clean_header_footer: True 
       split_by: word
-      split_length: 512
-      split_respect_sentence_boundary: True
+      split_length: 500
+      split_respect_sentence_boundary: False
   - name: FileTypeClassifier
     type: FileTypeClassifier
 
@@ -52,10 +42,8 @@ pipelines:
     nodes:
       - name: Retriever
         inputs: [Query]
-      # - name: AnswerGenerator
-      #   inputs: [Retriever] 
       - name: Reader
-        inputs: [Retriever]             
+        inputs: [Retriever]           
   - name: indexing
     nodes:
       - name: FileTypeClassifier

@@ -7,16 +7,18 @@ components:    # define all the building-blocks for Pipeline
     type: ElasticsearchDocumentStore  # consider using MilvusDocumentStore or WeaviateDocumentStore for scaling to large number of documents
     params:
       host: localhost
+      embedding_dim: 768
+      similarity: dot_product      
   - name: Retriever
     type: DensePassageRetriever
     params:
       document_store: DocumentStore    # params can reference other components defined in the YAML
-      top_k: 5
+      top_k: 10
   - name: Reader       # custom-name for the component; helpful for visualization & debugging
     type: FARMReader    # Haystack Class name for the component
     params:
       model_name_or_path: deepset/roberta-base-squad2
-      context_window_size: 1000
+      context_window_size: 500
       return_no_answer: true
   - name: TextFileConverter
     type: TextConverter
@@ -26,7 +28,7 @@ components:    # define all the building-blocks for Pipeline
     type: PreProcessor
     params:
       split_by: word
-      split_length: 1000
+      split_length: 500
   - name: FileTypeClassifier
     type: FileTypeClassifier
 
