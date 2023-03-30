@@ -2,17 +2,15 @@ import logging
 
 import uvicorn
 from rest_api.utils import get_app, get_pipelines
+# from logging_config import LOGGING_CONFIG  
 
-
-logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%m/%d/%Y %I:%M:%S %p")
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(message)s", datefmt="%m/%d/%Y %I:%M:%S %p")
 logger = logging.getLogger(__name__)
 logging.getLogger("elasticsearch").setLevel(logging.WARNING)
 logging.getLogger("haystack").setLevel(logging.INFO)
 
-
 app = get_app()
 pipelines = get_pipelines()  # Unused here, called to init the pipelines early
-
 
 logger.info("Open http://127.0.0.1:8000/docs to see Swagger API Documentation.")
 logger.info(
@@ -20,6 +18,5 @@ logger.info(
     '-H "Content-Type: application/json"  --data \'{"query": "Who is the father of Arya Stark?"}\''
 )
 
-
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, use_colors=True)  # Add log_config parameter

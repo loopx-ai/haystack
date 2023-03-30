@@ -1,5 +1,5 @@
 variable "HAYSTACK_VERSION" {
-  default = "main"
+  default = "aisear" // branch
 }
 
 variable "GITHUB_REF" {
@@ -7,15 +7,15 @@ variable "GITHUB_REF" {
 }
 
 variable "IMAGE_NAME" {
-  default = "deepset/haystack"
+  default = "ghcr.io/loopx-ai/haystack"
 }
 
 variable "IMAGE_TAG_SUFFIX" {
-  default = "local"
+  default = "main"
 }
 
 variable "BASE_IMAGE_TAG_SUFFIX" {
-  default = "local"
+  default = "main"
 }
 
 variable "HAYSTACK_EXTRAS" {
@@ -61,7 +61,8 @@ target "base-gpu" {
     haystack_version = "${HAYSTACK_VERSION}"
     haystack_extras = notequal("",HAYSTACK_EXTRAS) ? "${HAYSTACK_EXTRAS}" : "[docstores-gpu,crawler,preprocessing,pdf,ocr,onnx-gpu]"
   }
-  platforms = ["linux/amd64", "linux/arm64"]
+  // platforms = ["linux/amd64", "linux/arm64"]
+  platforms = ["linux/amd64"]
 }
 
 target "cpu" {
@@ -87,7 +88,8 @@ target "gpu" {
     base_image = "${IMAGE_NAME}"
     base_image_tag = "base-gpu-${BASE_IMAGE_TAG_SUFFIX}"
   }
-  platforms = ["linux/amd64", "linux/arm64"]
+  // platforms = ["linux/amd64", "linux/arm64"]
+  platforms = ["linux/amd64"]
 }
 
 target "gpu-latest" {

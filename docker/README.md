@@ -16,6 +16,26 @@ If you need the container to access other services available in the host, run:
 ```sh
 docker run -p 8000:8000 --network="host" deepset/haystack
 ```
+## How to build:
+
+Parameter Description:
+
+- `--load`: save image to local
+- `--push`: push to registry
+
+```shell
+## Build CPU version locally
+$ docker buildx bake base-cpu --load
+$ docker buildx bake cpu --load
+
+## Build GPU version locally
+$ docker buildx bake base-gpu --load
+$ docker buildx bake gpu --load
+
+## Build and push
+$ docker buildx bake base-gpu --push
+$ docker buildx bake gpu --push
+```
 
 ## Image Variants
 

@@ -41,6 +41,9 @@ Haystack is built in a modular fashion so that you can combine the best technolo
 
 <p align="center"><img src="https://raw.githubusercontent.com/deepset-ai/haystack/main/docs/img/main_example.gif"></p>
 
+## Quick Start Guide:
+[Quick Start：](QuickStart.md)
+
 ## What to Build with Haystack
 
 - **Ask questions in natural language** and find granular answers in your documents.

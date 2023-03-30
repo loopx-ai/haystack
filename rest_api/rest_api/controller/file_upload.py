@@ -19,6 +19,11 @@ router = APIRouter()
 app: FastAPI = get_app()
 indexing_pipeline: Pipeline = get_pipelines().get("indexing_pipeline", None)
 
+import logging
+from rest_api.config import LOG_LEVEL
+logging.getLogger("haystack").setLevel(LOG_LEVEL)
+logger = logging.getLogger(__name__)
+logger.setLevel(LOG_LEVEL)
 
 @as_form
 class FileConverterParams(BaseModel):
@@ -71,12 +76,17 @@ def upload_file(
                 shutil.copyfileobj(file.file, buffer)
 
             file_paths.append(file_path)
-            meta_form["name"] = file.filename
+            meta_form["name"]    = file.filename
+            meta_form["file_id"] = file_path.name
+            meta_form["user_id"] = meta_form.get("user_id", "default_user")
+            meta_form["user_project"] = meta_form.get("user_project", "default_project")
             file_metas.append(meta_form)
         finally:
             file.file.close()
 
+
     params = json.loads(additional_params) or {}  # type: ignore
+
 
     # Find nodes names
     converters = indexing_pipeline.get_nodes_by_class(BaseConverter)
@@ -87,4 +97,11 @@ def upload_file(
     for preprocessor in preprocessors:
         params[preprocessor.name] = preprocessor_params.dict()
 
-    indexing_pipeline.run(file_paths=file_paths, meta=file_metas, params=params)
+    try:
+        indexing_pipeline.run(file_paths=file_paths, meta=file_metas, params=params)
+    except Exception as e:
+        logger.error("Error executing indexing pipeline: %s", str(e))
+        raise HTTPException(status_code=500, detail=f"Error executing indexing pipeline: {str(e)}")
+
+    # Return meta for more process
+    return meta_form
