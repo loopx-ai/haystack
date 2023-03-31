@@ -9,7 +9,7 @@ services:
       - hsnltk_data:/home/haystackd/nltk_data
       - hsfile_data:/opt/file-upload
     ports:
-      - 8000:8000
+      - 9210:8000
     restart: on-failure
     # command: uvicorn rest_api.application:app --reload --host 0.0.0.0
     runtime: nvidia
@@ -17,7 +17,7 @@ services:
       - LOG_LEVEL=INFO
       - NVIDIA_VISIBLE_DEVICES=all
       - DOCUMENTSTORE_PARAMS_HOST=elasticsearch
-      - PIPELINE_YAML_PATH=/opt/pipelines/pipelines.haystack-pipeline.yml
+      - PIPELINE_YAML_PATH=/opt/pipelines/pipelines_aisear.haystack-pipeline.yml
       - TOKENIZERS_PARALLELISM=false
       # Uncomment the following line to customise how much time (in seconds) a worker can spend serving a request
       # before it times out. This should include the time required to cache the models and setup the pipelines.

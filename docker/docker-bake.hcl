@@ -1,5 +1,5 @@
 variable "HAYSTACK_VERSION" {
-  default = "aisear" // branch
+  default = "aisear-stable" // branch
 }
 
 variable "GITHUB_REF" {
