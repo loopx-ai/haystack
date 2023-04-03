@@ -42,6 +42,25 @@ services:
         interval: 10s
         timeout: 1s
         retries: 10
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.9
+    container_name: kibana_docker
+    ports:
+      - 5601:5601
+    environment:
+      - server.host="localhost"
+      - server.maxPayload=1048576
+      - server.name="aisear_elasticsearch_kibana"
+      - elasticsearch.hosts=["http://localhost:9200"]
+      - kibana.index=".kibana"
+      - kibana.defaultAppId="home"
+      - elasticsearch.pingTimeout=1500
+      - elasticsearch.requestTimeout=30000
+      - elasticsearch.shardTimeout=30000
+      - ops.interval=5000
+      - i18n.locale="en"
+      - console.enabled=true
 
 volumes:
   hsfile_data:
