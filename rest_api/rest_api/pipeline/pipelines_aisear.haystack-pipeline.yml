@@ -22,15 +22,6 @@ components:    # define all the building-blocks for Pipeline
       model_name_or_path: deepset/roberta-base-squad2
       context_window_size: 500
       return_no_answer: true      
-  # - name: AnswerGenerator
-  #   type: OpenAIAnswerGenerator
-  #   params:
-  #     model: "gpt-3.5-turbo"    # params can reference other components defined in the YAML
-  #     top_k: 5
-  #     temperature: 0
-  #     max_tokens: 50
-  #     api_key: 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
-  #     api_version: 
   - name: TextFileConverter
     type: TextConverter
   - name: PDFFileConverter
