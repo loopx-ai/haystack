@@ -955,11 +955,6 @@ def bert_base_squad2(request):
     return model
 
 
-@pytest.fixture
-def prompt_node():
-    return PromptNode("google/flan-t5-small", devices=["cpu"])
-
-
 def haystack_azure_conf():
     api_key = os.environ.get("AZURE_OPENAI_API_KEY", None)
     azure_base_url = os.environ.get("AZURE_OPENAI_BASE_URL", None)
@@ -1011,3 +1006,16 @@ def chatgpt_prompt_model():
 @pytest.fixture
 def azure_conf():
     return haystack_azure_conf()
+
+
+@pytest.fixture(autouse=True)
+def request_blocker(request: pytest.FixtureRequest, monkeypatch):
+    """
+    This fixture is applied automatically to all tests.
+    Those that are marked as unit will have the requests module
+    monkeypatched to avoid making HTTP requests by mistake.
+    """
+    marker = request.node.get_closest_marker("unit")
+    if marker is None:
+        return
+    monkeypatch.delattr("requests.sessions.Session")
